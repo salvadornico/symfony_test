@@ -1,0 +1,59 @@
+{% extends 'template.html.twig' %}
+
+{% block title %}
+	Home
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1>Home</h1>
+
+		<div class="row">
+			<form method="POST">
+				<input type="text" name="name" id="namedField" placeholder="Type your name">
+			</form>
+			<button class="btn" id="namedBtn">Get Lucky Number</button>
+
+			<button class="btn black white-text" id="noNameBtn">I have no name</a>
+		</div>
+
+		<div class="row" id="results"></div>
+	</div>
+
+	<script>
+		$("#namedBtn").click(() => {
+			if ($("#namedField").val()) {
+				$.ajax({
+					type: "POST",
+					url: "{{ path('named') }}",
+					data: {
+						name: $("#namedField").val()
+					},
+					success: (data, dataType) => {
+						$("#results").html(data)
+					},
+					error: (XMLHttpRequest, textStatus, errorThrown) => {
+						alert('Error : ' + errorThrown)
+						console.log(XMLHttpRequest)
+					}
+				})
+			} else {
+				alert("Please type a name")
+			}
+		})
+
+		$("#noNameBtn").click(() => {
+			$.ajax({
+				type: "GET",
+				url: "{{ path('number') }}",
+				success: (data, dataType) => {
+					$("#results").html(data)
+				},
+				error: (XMLHttpRequest, textStatus, errorThrown) => {
+					alert('Error : ' + errorThrown)
+					console.log(XMLHttpRequest)
+				}
+			})
+		})
+	</script>
+{% endblock %}

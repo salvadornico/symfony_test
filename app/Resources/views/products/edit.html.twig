@@ -1,0 +1,34 @@
+{% extends 'template.html.twig' %}
+
+{% block title %}
+	Edit {{ product.name }}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row section">
+			<h2>Edit {{ product.name }}</h2>
+
+			<form action="{{ path('saveEdit') }}" method="post">
+				<input type="hidden" name="id" value="{{ product.id }}">
+				<div class="input-field">
+					<input type="text" name="name" value="{{ product.name }}">
+					<label for="name">Name</label>
+				</input>
+				<div class="input-field">
+					<input type="number" step=".01" name="price" value="{{ product.price }}">
+					<label for="price">Price</label>
+				</input>
+				<div class="input-field">
+					<input type="text" name="description" value="{{ product.description }}">
+					<label for="description">Description</label>
+				</input>
+				<div class="input-field">
+					<input type="text" name="category" value="{{ product.category.name }}">
+					<label for="category">Category</label>
+				</input>
+				<button type="submit" class="btn">Save</button>
+			</form>
+		</div>
+	</div>
+{% endblock %}

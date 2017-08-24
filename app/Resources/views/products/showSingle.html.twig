@@ -1,0 +1,22 @@
+{% extends 'template.html.twig' %}
+
+{% block title %}
+	{{ product.name }}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row section">
+			<h2>{{ product.name }}</h2>
+
+			<h4>Price: ${{ product.price }}</h4>
+			<h4>Category: {{ product.category.name }}</h4>
+			<blockquote>{{ product.description }}</blockquote>
+		</div>
+
+		<div class="row section">
+			<a href="{{ path('edit', {'id': product.id}) }}" class="btn">Edit</a>
+			<a href="{{ path('delete', {'id': product.id}) }}" class="btn red">Delete</a>
+		</div>
+	</div>
+{% endblock %}

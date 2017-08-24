@@ -1,0 +1,60 @@
+{% extends 'template.html.twig' %}
+
+{% block title %}
+	All products
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+
+		<div class="row section">
+			<h2>Products</h2>
+			<table class="col s12 m8 highlight">
+				<thead>
+					<tr>
+						<td>Product</td>
+						<td>Price</td>
+						<td>Category</td>
+					</tr>
+				</thead>
+				<tbody>
+					{% for product in products %}
+						<tr>
+							<td>
+								<a href="{{ path('show', {'id': product.id}) }}">
+									{{ product.name }}
+								</a>
+							</td>
+							<td>{{ product.price }}</td>
+							<td>{{ product.category.name }}</td>
+						</tr>
+					{% endfor %}
+				</tbody>			
+			</table>
+		</div>
+
+		<div class="row section">
+			<h3>Add product</h3>
+			<form action="{{ path('create') }}" method="post">
+				<div class="input-field">
+					<input type="text" name="name">
+					<label for="name">Name</label>
+				</input>
+				<div class="input-field">
+					<input type="number" step=".01" name="price">
+					<label for="price">Price</label>
+				</input>
+				<div class="input-field">
+					<input type="text" name="description">
+					<label for="description">Description</label>
+				</input>
+				<div class="input-field">
+					<input type="text" name="category">
+					<label for="category">Category</label>
+				</input>
+				<button type="submit" class="btn green">Add</button>
+			</form>
+		</div>
+
+	</div>
+{% endblock %}
