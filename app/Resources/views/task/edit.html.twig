@@ -5,21 +5,21 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Task edit</h1>
+	<div class="container">
+		<h1>Task edit</h1>
 
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
-    {{ form_end(edit_form) }}
+		<div class="row section">
+			{% form_theme edit_form 'form/fields.html.twig' %}
+			{{ form_start(edit_form) }}
+				{{ form_widget(edit_form) }}
+			{{ form_end(edit_form) }}
+		</div>
 
-    <ul>
-        <li>
-            <a href="{{ path('task_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+		<div class="row section">
+			<a href="{{ path('task_index') }}" class="btn">Back to the list</a>
+			{{ form_start(delete_form) }}
+				<input type="submit" value="Delete" class="btn red">
+			{{ form_end(delete_form) }}
+		</div>
+	</div>
 {% endblock %}

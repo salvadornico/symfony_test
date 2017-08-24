@@ -1,8 +1,9 @@
 {%- block form_row -%}
     <div class="input-field">
-        {{- form_label(form) -}}
+	{# <div> #}
         {{- form_errors(form) -}}
         {{- form_widget(form) -}}
+        {{- form_label(form) -}}
     </div>
 {%- endblock form_row -%}
 

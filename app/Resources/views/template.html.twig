@@ -28,13 +28,12 @@
 				<li><a href="{{ path('home') }}">Lucky Numbers</a></li>
 			</ul>
 		</div>
-  </nav>
-	{% if form is defined %}	
-		{% form_theme form 'form/fields.html.twig' %}
-	{% endif %}
-	{% block body %}
-		<h4>Default template</h4>
-	{% endblock %}
+	</nav>
+	<main>
+		{% block body %}
+			<h4>Default template</h4>
+		{% endblock %}
+	</main>
 	{% for flash_message in app.session.flashBag.get('notice') %}
 		<script>			
 			Materialize.toast('{{ flash_message }}', 4000)

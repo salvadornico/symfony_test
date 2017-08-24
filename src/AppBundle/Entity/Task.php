@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Task
@@ -25,14 +26,17 @@ class Task
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+	 * @ORM\Column(name="name", type="string", length=255)
+	 * @Assert\NotBlank()
      */
     private $name;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="due", type="date")
+	 * @ORM\Column(name="due", type="date")
+	 * @Assert\NotBlank()
+	 * @Assert\GreaterThanOrEqual("today")
      */
     private $due;
 

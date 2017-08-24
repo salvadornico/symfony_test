@@ -8,6 +8,7 @@
 	<div class="container">
 		<h1>Task creation</h1>
 
+		{% form_theme form 'form/fields.html.twig' %}
 		{{ form_start(form) }}
 			{{ form_widget(form) }}
 		{{ form_end(form) }}

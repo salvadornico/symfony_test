@@ -7,9 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Form\TaskType;
 
 /**
  * Task controller.
@@ -46,11 +44,7 @@ class TaskController extends Controller
         $task = new Task();
 		$task->setDue(new \DateTime('tomorrow'));
 
-		$form = $this->createFormBuilder($task)
-			->add('name', TextType::class)
-			->add('due', DateType::class)
-			->add('save', SubmitType::class, array('label' => 'Add Task'))
-			->getForm();
+		$form = $this->createForm(TaskType::class, $task);
 
 		$form->handleRequest($request);
 		if ($form->isSubmitted() && $form->isValid()) {
@@ -97,13 +91,16 @@ class TaskController extends Controller
     public function editAction(Request $request, Task $task)
     {
         $deleteForm = $this->createDeleteForm($task);
-        $editForm = $this->createForm('AppBundle\Form\TaskType', $task);
-        $editForm->handleRequest($request);
-
+        $editForm = $this->createForm(TaskType::class, $task);
+		
+		$editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('task_edit', array('id' => $task->getId()));
+			$this->addFlash(
+				'notice',
+				'Task saved!'
+			);
+			return $this->redirectToRoute('task_index');
         }
 
         return $this->render('task/edit.html.twig', array(
@@ -127,7 +124,11 @@ class TaskController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($task);
-            $em->flush();
+			$em->flush();
+			$this->addFlash(
+				'notice',
+				'Task deleted'
+			);
         }
 
         return $this->redirectToRoute('task_index');
@@ -147,5 +148,24 @@ class TaskController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
-    }
+	}
+	
+	/**
+	* Mark a task as done
+	*
+	* @Route("/markDone/{id}", name="task_markDone")
+	*/
+	public function markDoneAction($id) 
+	{		
+		$em = $this->getDoctrine()->getManager();
+		$task = $em->getRepository('AppBundle:Task')->find($id);
+		$task->setIsDone(true);
+		$em->flush();
+
+		$this->addFlash(
+			'notice',
+			'Task completed!'
+		);
+		return $this->redirectToRoute('task_index');
+	}
 }
