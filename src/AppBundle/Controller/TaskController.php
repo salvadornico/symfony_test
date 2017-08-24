@@ -44,16 +44,27 @@ class TaskController extends Controller
     public function newAction(Request $request)
     {
         $task = new Task();
-        $form = $this->createForm('AppBundle\Form\TaskType', $task);
-        $form->handleRequest($request);
+		$task->setDue(new \DateTime('tomorrow'));
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($task);
-            $em->flush();
+		$form = $this->createFormBuilder($task)
+			->add('name', TextType::class)
+			->add('due', DateType::class)
+			->add('save', SubmitType::class, array('label' => 'Add Task'))
+			->getForm();
 
-            return $this->redirectToRoute('task_show', array('id' => $task->getId()));
-        }
+		$form->handleRequest($request);
+		if ($form->isSubmitted() && $form->isValid()) {
+			$task = $form->getData();
+			$em = $this->getDoctrine()->getManager();
+			$em->persist($task);
+			$em->flush();
+
+			$this->addFlash(
+				'notice',
+				'Task added!'
+			);
+			return $this->redirectToRoute('task_index');
+		}
 
         return $this->render('task/new.html.twig', array(
             'task' => $task,

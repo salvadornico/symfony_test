@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="task")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TaskRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Task
 {
@@ -40,7 +41,7 @@ class Task
      *
      * @ORM\Column(name="is_done", type="boolean")
      */
-    private $is_done;
+    private $is_done = false;
 
     /**
      * @var \DateTime
@@ -133,11 +134,13 @@ class Task
      * Set created_at
      *
      * @param \DateTime $createdAt
-     * @return Task
+	 * @return Task
+	 *
+	 * @ORM\PrePersist
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt()
     {
-        $this->created_at = $createdAt;
+        $this->created_at = new \DateTime();
 
         return $this;
     }

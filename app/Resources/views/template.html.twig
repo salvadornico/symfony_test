@@ -29,6 +29,9 @@
 			</ul>
 		</div>
   </nav>
+	{% if form is defined %}	
+		{% form_theme form 'form/fields.html.twig' %}
+	{% endif %}
 	{% block body %}
 		<h4>Default template</h4>
 	{% endblock %}
