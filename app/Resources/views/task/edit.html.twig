@@ -4,15 +4,17 @@
 	Edit Task
 {% endblock %}
 
+{% block scripts %}
+	{{ parent() }}
+	<script src="{{ asset('js/tagFormHandler.js') }}"></script>
+{% endblock %}
+
 {% block body %}
 	<div class="container">
 		<h1>Task edit</h1>
 
 		<div class="row section">
-			{% form_theme edit_form 'form/fields.html.twig' %}
-			{{ form_start(edit_form) }}
-				{{ form_widget(edit_form) }}
-			{{ form_end(edit_form) }}
+			{% include 'form/taskForm.html.twig' %}
 		</div>
 
 		<div class="row section">

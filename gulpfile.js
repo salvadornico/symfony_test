@@ -5,9 +5,11 @@ var postcss = require("gulp-postcss")
 var autoprefixer = require("autoprefixer")
 
 gulp.task("watch", ["browserSync", "styles-dev"], () => {
+	gulp.watch("./src/**/*.php", browserSync.reload)
 	gulp.watch("./app/Resources/views/**/*.twig", browserSync.reload)
 	gulp.watch("./app/Resources/styles/**/*.styl", ["styles-dev"])
 	gulp.watch("./web/styles/*.css", browserSync.reload)
+	gulp.watch("./web/js/*.js", browserSync.reload)
 })
 
 gulp.task("browserSync", () => {

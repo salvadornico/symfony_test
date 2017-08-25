@@ -2,10 +2,12 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Task;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class TaskType extends AbstractType
 {
@@ -17,6 +19,12 @@ class TaskType extends AbstractType
 		$builder
 			->add('name')
 			->add('due')
+			->add('tags', CollectionType::class, array(
+				'entry_type' => TagType::class,
+				'allow_add' => true,
+				'by_reference' => false,
+				'allow_delete' => true,
+			))
 			->add('save', SubmitType::class)
 		;
     }
@@ -27,7 +35,7 @@ class TaskType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Task'
+            'data_class' => Task::class,
         ));
     }
 

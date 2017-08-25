@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Task;
+use AppBundle\Entity\Tag;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -91,10 +92,10 @@ class TaskController extends Controller
     public function editAction(Request $request, Task $task)
     {
         $deleteForm = $this->createDeleteForm($task);
-        $editForm = $this->createForm(TaskType::class, $task);
+        $form = $this->createForm(TaskType::class, $task);
 		
-		$editForm->handleRequest($request);
-        if ($editForm->isSubmitted() && $editForm->isValid()) {
+		$form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 			$this->addFlash(
 				'notice',
@@ -105,7 +106,7 @@ class TaskController extends Controller
 
         return $this->render('task/edit.html.twig', array(
             'task' => $task,
-            'edit_form' => $editForm->createView(),
+            'form' => $form->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
