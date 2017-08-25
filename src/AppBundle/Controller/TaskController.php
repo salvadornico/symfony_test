@@ -27,7 +27,7 @@ class TaskController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $tasks = $em->getRepository('AppBundle:Task')->findAll();
+        $tasks = $em->getRepository('AppBundle:Task')->findAllJoinedToTags();
 
         return $this->render('task/index.html.twig', array(
             'tasks' => $tasks,
@@ -75,11 +75,13 @@ class TaskController extends Controller
      */
     public function showAction(Task $task)
     {
-        $deleteForm = $this->createDeleteForm($task);
+		$deleteForm = $this->createDeleteForm($task);
+		$tags = $task->getTags();
 
         return $this->render('task/show.html.twig', array(
             'task' => $task,
-            'delete_form' => $deleteForm->createView(),
+			'delete_form' => $deleteForm->createView(),
+			'tags' => $tags,
         ));
     }
 
@@ -96,7 +98,8 @@ class TaskController extends Controller
 		
 		$form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+			$em = $this->getDoctrine()->getManager();
+			$em->flush();
 			$this->addFlash(
 				'notice',
 				'Task saved!'

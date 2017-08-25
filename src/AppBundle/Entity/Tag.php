@@ -4,12 +4,15 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Tag
  *
  * @ORM\Table(name="tag")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TagRepository")
+ * @UniqueEntity("name")
  */
 class Tag
 {
@@ -25,7 +28,8 @@ class Tag
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+	 * @ORM\Column(name="name", type="string", length=255, unique=true)
+	 * @Assert\NotBlank()
      */
 	private $name;
 	

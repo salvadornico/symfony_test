@@ -15,6 +15,7 @@
 					<th>Due On</th>
 					<th>Finished?</th>
 					<th>Created On</th>
+					<th>Tags</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -26,7 +27,14 @@
 					<td>{% if task.isdone %}Yes{% else %}No{% endif %}</td>
 					<td>{% if task.createdat %}{{ task.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
 					<td>
-						<a href="{{ path('task_edit', { 'id': task.id }) }}" class="btn btn-flat">edit</a>
+						{% for tag in task.tags %}
+							{% include 'tag/tagList.html.twig' %}
+						{% endfor %}
+					</td>
+					<td>
+						{% if task.isdone == false %}
+							<a href="{{ path('task_markDone', { 'id': task.id }) }}" class="btn">Mark done</a>
+						{% endif %}
 					</td>
 				</tr>
 			{% endfor %}
@@ -34,7 +42,7 @@
 		</table>
 
 		<div class="row section">
-			<a href="{{ path('task_new') }}" class="btn">Create a new task</a>
+			<a href="{{ path('task_new') }}" class="btn green">Create a new task</a>
 		</div>
 	</div>
 {% endblock %}

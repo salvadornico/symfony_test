@@ -1,24 +1,36 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Tag</h1>
+	<div class="container">
+		<h1>Tag</h1>
 
-    <table>
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ tag.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ tag.name }}</td>
-            </tr>
-        </tbody>
-    </table>
+		<table>
+			<tbody>
+				<tr>
+					<th>Id</th>
+					<td>{{ tag.id }}</td>
+				</tr>
+				<tr>
+					<th>Name</th>
+					<td>{{ tag.name }}</td>
+				</tr>
+				<tr>
+					<th>Tasks</th>
+					<td>
+						<ul>
+							{% for task in tasks %}
+								{{ task.name }}
+							{% endfor %}
+						</ul>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 
-    <ul>
-        <li>
-            <a href="{{ path('tag_index') }}">Back to the list</a>
-        </li>
-    </ul>
+		<ul>
+			<li>
+				<a href="{{ path('tag_index') }}" class="btn">Back to the list</a>
+			</li>
+		</ul>
+	</div>
 {% endblock %}

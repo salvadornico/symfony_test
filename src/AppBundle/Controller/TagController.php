@@ -39,9 +39,11 @@ class TagController extends Controller
      */
     public function showAction(Tag $tag)
     {
+		$tasks = $tag->getTasks();
 
         return $this->render('tag/show.html.twig', array(
-            'tag' => $tag,
+			'tag' => $tag,
+			'tasks' => $tasks,
         ));
     }
 }

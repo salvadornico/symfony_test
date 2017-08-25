@@ -30,12 +30,22 @@
 					<th>Created On</th>
 					<td>{% if task.createdat %}{{ task.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
 				</tr>
+				<tr>
+					<th>Tags</th>
+					<td>
+						{% for tag in tags %}
+							{% include 'tag/tagList.html.twig' %}
+						{% endfor %}
+					</td>
+				</tr>
 			</tbody>
 		</table>
 
 		<a href="{{ path('task_index') }}" class="btn">Back to the list</a>
 		<a href="{{ path('task_edit', { 'id': task.id }) }}" class="btn">Edit</a>
-		<a href="{{ path('task_markDone', { 'id': task.id }) }}" class="btn">Mark as Done</a>
+		{% if task.isdone == false %}
+			<a href="{{ path('task_markDone', { 'id': task.id }) }}" class="btn">Mark as Done</a>
+		{% endif %}
 
 		<div class="row section">
 			{{ form_start(delete_form) }}
